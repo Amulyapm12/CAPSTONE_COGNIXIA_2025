@@ -1,17 +1,19 @@
-package utils;
+package parabank.utils;
 
-import java.io.InputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Properties;
 
 public class ConfigReader {
-    private static Properties properties = new Properties();
+    private static Properties properties;
 
     static {
-        try (InputStream input = ConfigReader.class.getClassLoader().getResourceAsStream("config.properties")) {
-            properties.load(input);
-        } catch (Exception e) {
+        try {
+            FileInputStream fis = new FileInputStream("src/test/resources/config.properties");
+            properties = new Properties();
+            properties.load(fis);
+        } catch (IOException e) {
             e.printStackTrace();
-            throw new RuntimeException("Failed to load config.properties");
         }
     }
 
@@ -19,3 +21,4 @@ public class ConfigReader {
         return properties.getProperty(key);
     }
 }
+
